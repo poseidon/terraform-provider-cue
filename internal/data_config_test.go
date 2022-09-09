@@ -67,6 +67,19 @@ data "cue_config" "example" {
 
 const outputWithPaths = `{"a":1,"b":2,"sum":3,"l":[1,2],"layout":{"boxes":[{"color":"red","row":0,"column":0},{"color":"blue","row":0,"column":1},{"color":"green","row":1,"column":0},{"color":"yellow","row":1,"column":1}]},"map":{"a":5,"b":10},"ben":{"name":"Ben","age":31,"human":true}}`
 
+const cueWithExpression = `
+data "cue_config" "example" {
+	content = <<EOT
+a: 1
+b: 2
+_hidden: 3
+EOT
+	expression = "a"
+}
+`
+
+const outputWithExpression = `1`
+
 func TestConfigRender(t *testing.T) {
 	r.UnitTest(t, r.TestCase{
 		Providers: testProviders,
@@ -87,6 +100,12 @@ func TestConfigRender(t *testing.T) {
 				Config: cueWithPaths,
 				Check: r.ComposeTestCheckFunc(
 					r.TestCheckResourceAttr("data.cue_config.example", "rendered", outputWithPaths),
+				),
+			},
+			{
+				Config: cueWithExpression,
+				Check: r.ComposeTestCheckFunc(
+					r.TestCheckResourceAttr("data.cue_config.example", "rendered", outputWithExpression),
 				),
 			},
 		},

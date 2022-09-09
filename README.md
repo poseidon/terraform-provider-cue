@@ -35,6 +35,7 @@ Define a `cue_config` data source to validate CUE `content`.
 
 ```tf
 data "cue_config" "example" {
+  pretty_print = true
   content = <<EOF
 a: 1
 b: 2
@@ -46,7 +47,6 @@ map: [string]:int
 map: {a: 1 * 5}
 map: {"b": b * 5}
 EOF
-  pretty_print = true
 }
 ```
 

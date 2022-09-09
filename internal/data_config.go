@@ -28,6 +28,10 @@ func dataConfig() *schema.Resource {
 				},
 				Optional: true,
 			},
+			"expression": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"pretty_print": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -79,6 +83,14 @@ func dataConfigRead(ctx context.Context, d *schema.ResourceData, meta any) diag.
 		value, err = loadPaths(cuectx, paths)
 		if err != nil {
 			return diag.FromErr(err)
+		}
+	}
+
+	// lookup an expression
+	if expression, ok := d.Get("expression").(string); ok && expression != "" {
+		value = value.LookupPath(cue.ParsePath(expression))
+		if err := value.Err(); err != nil {
+			return diag.FromErr(fmt.Errorf("expression error: %v", err))
 		}
 	}
 
