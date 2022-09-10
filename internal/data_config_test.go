@@ -67,6 +67,26 @@ data "cue_config" "example" {
 
 const outputWithPaths = `{"a":1,"b":2,"sum":3,"l":[1,2],"layout":{"boxes":[{"color":"red","row":0,"column":0},{"color":"blue","row":0,"column":1},{"color":"green","row":1,"column":0},{"color":"yellow","row":1,"column":1}]},"map":{"a":5,"b":10},"ben":{"name":"Ben","age":31,"human":true}}`
 
+const cueWithDir = `
+data "cue_config" "example" {
+	paths = [
+		"core.cue",
+		# uses imports
+		"box.cue",
+	]
+	dir = "../examples"
+}
+`
+
+const cueWithDir2 = `
+data "cue_config" "example" {
+	paths = [
+		"foo.cue",
+	]
+	dir = "testmod"
+}
+`
+
 const cueWithExpression = `
 data "cue_config" "example" {
 	content = <<EOT
@@ -77,8 +97,6 @@ EOT
 	expression = "a"
 }
 `
-
-const outputWithExpression = `1`
 
 func TestConfigRender(t *testing.T) {
 	r.UnitTest(t, r.TestCase{
@@ -103,9 +121,21 @@ func TestConfigRender(t *testing.T) {
 				),
 			},
 			{
+				Config: cueWithDir,
+				Check: r.ComposeTestCheckFunc(
+					r.TestCheckResourceAttr("data.cue_config.example", "rendered", outputWithPaths),
+				),
+			},
+			{
+				Config: cueWithDir2,
+				Check: r.ComposeTestCheckFunc(
+					r.TestCheckResourceAttr("data.cue_config.example", "rendered", `{"a":1}`),
+				),
+			},
+			{
 				Config: cueWithExpression,
 				Check: r.ComposeTestCheckFunc(
-					r.TestCheckResourceAttr("data.cue_config.example", "rendered", outputWithExpression),
+					r.TestCheckResourceAttr("data.cue_config.example", "rendered", "1"),
 				),
 			},
 		},

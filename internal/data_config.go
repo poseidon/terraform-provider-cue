@@ -28,6 +28,10 @@ func dataConfig() *schema.Resource {
 				},
 				Optional: true,
 			},
+			"dir": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"expression": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -80,7 +84,7 @@ func dataConfigRead(ctx context.Context, d *schema.ResourceData, meta any) diag.
 		value = cuectx.CompileString(content)
 	} else {
 		// load cue "instances" from fs
-		value, err = loadPaths(cuectx, paths)
+		value, err = loadPaths(cuectx, d, paths)
 		if err != nil {
 			return diag.FromErr(err)
 		}
@@ -112,8 +116,12 @@ func dataConfigRead(ctx context.Context, d *schema.ResourceData, meta any) diag.
 }
 
 // load Paths parses Cue files and merges them.
-func loadPaths(cuectx *cue.Context, paths []string) (cue.Value, error) {
-	config := &load.Config{}
+func loadPaths(cuectx *cue.Context, data *schema.ResourceData, paths []string) (cue.Value, error) {
+	dir := data.Get("dir").(string)
+
+	config := &load.Config{
+		Dir: dir,
+	}
 
 	// load cue "instances" from the given paths
 	instances := load.Instances(paths, config)

@@ -4,8 +4,12 @@ Notable changes between releases.
 
 ## Latest
 
-* Add `expression` field to `cue_config` ([#3](https://github.com/poseidon/terraform-provider-cue/pull/3))
+## v0.2.0
+
+* Add `expression` to `cue_config` ([#3](https://github.com/poseidon/terraform-provider-cue/pull/3))
   * Evaluate an expression instead of an entire config
+* Add `dir` to `cue_config` to set the loader
+  * Pass a root dir to load and evaluate imports
 
 ## v0.1.0
 
