@@ -1,6 +1,6 @@
 # terraform-provider-cue
 
-`terraform-provider-cue` allows Terraform to evaluate [CUE](https://cuelang.org/docs/) configs and render JSON for usage.
+`terraform-provider-cue` allows Terraform to evaluate [CUE](https://cuelang.org/docs/) configs and render JSON for use in Terraform.
 
 ## Usage
 
@@ -13,7 +13,7 @@ terraform {
   required_providers {
     ct = {
       source  = "poseidon/cue"
-      version = "0.1.0"
+      version = "0.2.0"
     }
   }
 }
@@ -52,6 +52,18 @@ data "cue_config" "example" {
     "core.cue",
     "box.cue",
   ]
+  pretty_print = false
+}
+```
+
+Customize the root directory CUE uses during loading (defaults to current directory).
+
+```
+data "cue_config" "example" {
+  paths = [
+    "foo.cue",
+  ]
+  dir = "internal/testmod"
   pretty_print = false
 }
 ```
