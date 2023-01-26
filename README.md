@@ -1,5 +1,9 @@
 # terraform-provider-cue
-[![GoDoc](https://pkg.go.dev/badge/github.com/poseidon/terraform-provider-cue.svg)](https://pkg.go.dev/github.com/poseidon/terraform-provider-cue) [![Workflow](https://github.com/poseidon/terraform-provider-cue/actions/workflows/test.yaml/badge.svg)](https://github.com/poseidon/terraform-provider-cue/actions/workflows/test.yaml?query=branch%3Amain) ![Downloads](https://img.shields.io/github/downloads/poseidon/terraform-provider-cue/total) [![Sponsors](https://img.shields.io/github/sponsors/poseidon?logo=github)](https://github.com/sponsors/poseidon) [![Twitter](https://img.shields.io/badge/follow-news-1da1f2?logo=twitter)](https://twitter.com/poseidonlabs)
+[![GoDoc](https://pkg.go.dev/badge/github.com/poseidon/terraform-provider-cue.svg)](https://pkg.go.dev/github.com/poseidon/terraform-provider-cue)
+[![Workflow](https://github.com/poseidon/terraform-provider-cue/actions/workflows/test.yaml/badge.svg)](https://github.com/poseidon/terraform-provider-cue/actions/workflows/test.yaml?query=branch%3Amain)
+![Downloads](https://img.shields.io/github/downloads/poseidon/terraform-provider-cue/total)
+[![Sponsors](https://img.shields.io/github/sponsors/poseidon?logo=github)](https://github.com/sponsors/poseidon)
+[![Mastodon](https://img.shields.io/badge/follow-news-6364ff?logo=mastodon)](https://fosstodon.org/@poseidon)
 
 `terraform-provider-cue` allows Terraform to evaluate [CUE](https://cuelang.org/docs/) configs and render JSON for use in Terraform.
 
