@@ -3,7 +3,7 @@ module github.com/poseidon/terraform-provider-cue
 go 1.19
 
 require (
-	cuelang.org/go v0.5.0-beta.5
+	cuelang.org/go v0.5.0
 	github.com/hashicorp/terraform-plugin-sdk/v2 v2.26.1
 )
 

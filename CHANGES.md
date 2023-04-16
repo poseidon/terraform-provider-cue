@@ -4,6 +4,10 @@ Notable changes between releases.
 
 ## Latest
 
+## v0.3.0
+
+* Update CUE from v0.4.3 to [v0.5.0](https://github.com/cue-lang/cue/releases/tag/v0.5.0)
+
 ## v0.2.0
 
 * Add `expression` to `cue_config` ([#3](https://github.com/poseidon/terraform-provider-cue/pull/3))
