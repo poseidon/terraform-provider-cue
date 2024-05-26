@@ -1,7 +1,6 @@
 package internal
 
 import (
-	"regexp"
 	"testing"
 
 	r "github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
@@ -9,34 +8,34 @@ import (
 
 const cueWithContent = `
 data "cue_config" "example" {
-	content = <<EOT
-a: 1
-b: 2
-_hidden: 3
-sum: a + b
-l: [a, b]
+	content = <<-EOT
+		a: 1
+		b: 2
+		_hidden: 3
+		sum: a + b
+		l: [a, b]
 
-map: [string]:int
-map: {a: 1*5}
-map: {"b": b*5}
-EOT
+		map: [string]:int
+		map: {a: 1*5}
+		map: {"b": b*5}
+	EOT
 }
 `
 
 const cueWithContentPretty = `
 data "cue_config" "example" {
-	content = <<EOT
-a: 1
-b: 2
-_hidden: 3
-sum: a + b
-l: [a, b]
-
-map: [string]:int
-map: {a: 1*5}
-map: {"b": b*5}
-EOT
 	pretty_print = true
+	content = <<-EOT
+		a: 1
+		b: 2
+		_hidden: 3
+		sum: a + b
+		l: [a, b]
+
+		map: [string]:int
+		map: {a: 1*5}
+		map: {"b": b*5}
+	EOT
 }
 `
 
@@ -66,6 +65,23 @@ data "cue_config" "example" {
 `
 
 const outputWithPaths = `{"layout":{"boxes":[{"color":"red","row":0,"column":0},{"color":"blue","row":0,"column":1},{"color":"green","row":1,"column":0},{"color":"yellow","row":1,"column":1}]},"a":1,"b":2,"sum":3,"l":[1,2],"map":{"a":5,"b":10},"ben":{"name":"Ben","age":31,"human":true}}`
+
+const cueWithContentAndPaths = `
+data "cue_config" "example" {
+	paths = [
+		"../examples/partial.cue",
+	]
+	content = <<-EOT
+		package examples
+
+		_config: {
+			name: "ACME"
+			amount: "$20.00"
+		}
+	EOT
+}
+`
+const outputWithContentAndPaths = `{"title":"Invoice","customer":"ACME","bill":"$20.00"}`
 
 const cueWithDir = `
 data "cue_config" "example" {
@@ -121,6 +137,12 @@ func TestConfigRender(t *testing.T) {
 				),
 			},
 			{
+				Config: cueWithContentAndPaths,
+				Check: r.ComposeTestCheckFunc(
+					r.TestCheckResourceAttr("data.cue_config.example", "rendered", outputWithContentAndPaths),
+				),
+			},
+			{
 				Config: cueWithDir,
 				Check: r.ComposeTestCheckFunc(
 					r.TestCheckResourceAttr("data.cue_config.example", "rendered", outputWithPaths),
@@ -137,26 +159,6 @@ func TestConfigRender(t *testing.T) {
 				Check: r.ComposeTestCheckFunc(
 					r.TestCheckResourceAttr("data.cue_config.example", "rendered", "1"),
 				),
-			},
-		},
-	})
-}
-
-func TestConfigContentOrPaths(t *testing.T) {
-	hcl := `
-data "cue_config" "invalid" {
-	content = "a: 1"
-	paths = [
-		"../examples/core.cue",
-	]
-}
-`
-	r.UnitTest(t, r.TestCase{
-		Providers: testProviders,
-		Steps: []r.TestStep{
-			{
-				Config:      hcl,
-				ExpectError: regexp.MustCompile("are mutually exclusive"),
 			},
 		},
 	})

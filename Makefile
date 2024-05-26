@@ -38,6 +38,13 @@ release: \
 	_output/plugin-darwin-arm64.zip \
 	_output/plugin-windows-amd64.zip
 
+release-test: OS_ARCH=$(shell go env GOOS)_$(shell go env GOARCH)
+release-test: DEST=$(HOME)/.terraform.d/plugins/terraform.localhost/poseidon/cue/$(SEMVER)/$(OS_ARCH)
+release-test: NAME=_output/terraform-provider-cue_$(SEMVER)_$(OS_ARCH)
+release-test:
+	@mkdir -p $(DEST)
+	cp $(NAME)/* $(DEST)
+
 _output/plugin-%.zip: NAME=terraform-provider-cue_$(SEMVER)_$(subst -,_,$*)
 _output/plugin-%.zip: DEST=_output/$(NAME)
 _output/plugin-%.zip: _output/%/terraform-provider-cue

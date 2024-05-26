@@ -4,6 +4,10 @@ Notable changes between releases.
 
 ## Latest
 
+## v0.4.0
+
+* Allow unifying `content` and `path` based CUE expressions ([#48](https://github.com/poseidon/terraform-provider-cue/pull/48))
+
 ## v0.3.0
 
 * Update CUE from v0.4.3 to [v0.5.0](https://github.com/cue-lang/cue/releases/tag/v0.5.0)

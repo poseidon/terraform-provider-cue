@@ -4,7 +4,8 @@ terraform {
   required_providers {
     cue = {
       source  = "poseidon/cue"
-      version = "0.3.0"
+      #source = "terraform.localhost/poseidon/cue"
+      version = "0.4.0"
     }
   }
 }

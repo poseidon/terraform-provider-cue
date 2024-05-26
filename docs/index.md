@@ -13,7 +13,7 @@ terraform {
   required_providers {
     ct = {
       source  = "poseidon/cue"
-      version = "0.2.0"
+      version = "0.4.0"
     }
   }
 }
@@ -29,22 +29,22 @@ Define a `cue_config` data source to validate CUE `content`.
 
 ```tf
 data "cue_config" "example" {
-  content = <<EOF
-a: 1
-b: 2
-sum: a + b
-_hidden: 3
-l: [a, b]
-
-map: [string]:int
-map: {a: 1 * 5}
-map: {"b": b * 5}
-EOF
   pretty_print = true
+  content = <<-EOT
+    a: 1
+    b: 2
+    sum: a + b
+    _hidden: 3
+    l: [a, b]
+
+    map: [string]:int
+    map: {a: 1 * 5}
+    map: {"b": b * 5}
+  EOT
 }
 ```
 
-Alternately, provide `paths` to CUE files (supports imports).
+Optionally provide `paths` to CUE files (supports imports).
 
 ```tf
 data "cue_config" "example" {
@@ -52,7 +52,24 @@ data "cue_config" "example" {
     "core.cue",
     "box.cue",
   ]
-  pretty_print = false
+}
+```
+
+Or unify `content` and `path` based expressions together.
+
+```tf
+data "cue_config" "example" {
+  paths = [
+    "partial.cue",
+  ]
+  content = <<-EOT
+    package example
+
+		_config: {
+			name: "ACME"
+			amount: "$20.00"
+		}
+  EOT
 }
 ```
 

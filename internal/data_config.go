@@ -68,23 +68,16 @@ func dataConfigRead(ctx context.Context, d *schema.ResourceData, meta any) diag.
 		}
 	}
 
-	// only allow content xor paths (not both)
-	_, hasContent := d.GetOk("content")
-	_, hasPaths := d.GetOk("paths")
-	if hasContent && hasPaths {
-		return diag.FromErr(fmt.Errorf("content and paths are mutually exclusive"))
-	}
-
 	// create a Cue context
 	cuectx := cuecontext.New()
 
 	var value cue.Value
 	var err error
-	if content != "" {
+	if len(paths) < 1 {
 		value = cuectx.CompileString(content)
 	} else {
-		// load cue "instances" from fs
-		value, err = loadPaths(cuectx, d, paths)
+		// load cue "instances" from filesystem
+		value, err = loadPaths(cuectx, d, content, paths)
 		if err != nil {
 			return diag.FromErr(err)
 		}
@@ -116,12 +109,18 @@ func dataConfigRead(ctx context.Context, d *schema.ResourceData, meta any) diag.
 }
 
 // load Paths parses Cue files and merges them.
-func loadPaths(cuectx *cue.Context, data *schema.ResourceData, paths []string) (cue.Value, error) {
+func loadPaths(cuectx *cue.Context, data *schema.ResourceData, content string, paths []string) (cue.Value, error) {
 	dir := data.Get("dir").(string)
 
 	config := &load.Config{
 		Dir: dir,
+		// Trick CUE into "loading" the content expression as though it was a file
+		Overlay: map[string]load.Source{
+			"/content.cue": load.FromString(content),
+		},
 	}
+	// content.cue is a fake path to convince load to read string contents
+	paths = append(paths, "/content.cue")
 
 	// load cue "instances" from the given paths
 	instances := load.Instances(paths, config)
