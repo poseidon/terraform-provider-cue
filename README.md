@@ -75,10 +75,10 @@ data "cue_config" "example" {
   content = <<-EOT
     package example
 
-		_config: {
-			name: "ACME"
-			amount: "$20.00"
-		}
+    _config: {
+      name: "ACME"
+      amount: "$20.00"
+    }
   EOT
 }
 ```
