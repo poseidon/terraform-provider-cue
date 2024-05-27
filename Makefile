@@ -62,8 +62,8 @@ _output/%/terraform-provider-cue:
 
 release-sign:
 	cd _output; sha256sum *.zip > terraform-provider-cue_$(SEMVER)_SHA256SUMS
-	gpg2 --detach-sign _output/terraform-provider-cue_$(SEMVER)_SHA256SUMS
+	gpg --default-key 0x8F515AD1602065C8 --detach-sign _output/terraform-provider-cue_$(SEMVER)_SHA256SUMS
 
 release-verify: NAME=_output/terraform-provider-cue
 release-verify:
-	gpg2 --verify $(NAME)_$(SEMVER)_SHA256SUMS.sig $(NAME)_$(SEMVER)_SHA256SUMS
+	gpg --verify $(NAME)_$(SEMVER)_SHA256SUMS.sig $(NAME)_$(SEMVER)_SHA256SUMS
