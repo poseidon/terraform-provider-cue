@@ -5,7 +5,7 @@ terraform {
     cue = {
       source  = "poseidon/cue"
       #source = "terraform.localhost/poseidon/cue"
-      version = "0.4.0"
+      version = "0.4.1"
     }
   }
 }
