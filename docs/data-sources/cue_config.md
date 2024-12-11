@@ -31,6 +31,8 @@ data "cue_config" "example" {
     "core.cue",
     "box.cue",
   ]
+  # `paths` and `content` can be combined
+  # content = "foo: bar"
   pretty_print = false
 }
 ```
@@ -58,7 +60,7 @@ output "out" {
 
 ## Argument Reference
 
-* `content` - inline CUE contents to evaluate (exclusive with `paths`)
+* `content` - inline CUE contents to evaluate
 * `dir` - Root directory CUE uses to load and evaluate imports
 * `paths` - list of paths to CUE files (relative to Terraform workspace) to evaluate (exclusive with `content`)
 * `expression` - evaluate an expression instead of an entire config
