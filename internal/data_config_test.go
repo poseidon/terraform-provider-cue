@@ -64,7 +64,7 @@ data "cue_config" "example" {
 }
 `
 
-const outputWithPaths = `{"layout":{"boxes":[{"color":"red","row":0,"column":0},{"color":"blue","row":0,"column":1},{"color":"green","row":1,"column":0},{"color":"yellow","row":1,"column":1}]},"a":1,"b":2,"sum":3,"l":[1,2],"map":{"a":5,"b":10},"ben":{"name":"Ben","age":31,"human":true}}`
+const outputWithPaths = `{"a":1,"b":2,"layout":{"boxes":[{"color":"red","row":0,"column":0},{"color":"blue","row":0,"column":1},{"color":"green","row":1,"column":0},{"color":"yellow","row":1,"column":1}]},"sum":3,"l":[1,2],"map":{"a":5,"b":10},"ben":{"name":"Ben","age":31,"human":true}}`
 
 const cueWithContentAndPaths = `
 data "cue_config" "example" {
