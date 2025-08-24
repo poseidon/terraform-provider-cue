@@ -2,7 +2,7 @@ module github.com/poseidon/terraform-provider-cue
 
 go 1.23.0
 
-toolchain go1.24.6
+toolchain go1.25.0
 
 require (
 	cuelang.org/go v0.14.1
