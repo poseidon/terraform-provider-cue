@@ -6,7 +6,7 @@ toolchain go1.25.1
 
 require (
 	cuelang.org/go v0.14.1
-	github.com/hashicorp/terraform-plugin-sdk/v2 v2.38.0
+	github.com/hashicorp/terraform-plugin-sdk/v2 v2.38.1
 )
 
 require (
